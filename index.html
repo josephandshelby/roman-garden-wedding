@@ -21,7 +21,8 @@
     <!-- FULL-WIDTH ENGAGEMENT SLIDESHOW -->
     <section class="slideshow-section">
         <div class="slideshow-wrapper">
-            <div class="arrow arrow-left">&#10094;</div>
+
+            <!-- IMAGE TRACK -->
             <div class="slideshow-track">
                 <img src="engagement1.jpg" alt="Engagement photo 1">
                 <img src="engagement2.jpg" alt="Engagement photo 2">
@@ -32,25 +33,30 @@
                 <img src="engagement7.jpg" alt="Engagement photo 7">
                 <img src="engagement8.jpg" alt="Engagement photo 8">
             </div>
+
+            <!-- LEFT/RIGHT ARROWS -->
+            <div class="arrow arrow-left">&#10094;</div>
             <div class="arrow arrow-right">&#10095;</div>
+
         </div>
     </section>
 
-    <!-- BACKGROUND CONTAINER FOR REMAINING SECTIONS -->
     <div class="body-background">
+        <!-- ABOUT SECTION -->
+        <section class="about">
+            <h2>Welcome to Our Celebration</h2>
+            <p>
+                Join us for an elegant Roman Garden wedding at the iconic Caesars Palace in Las Vegas.
+                Surrounded by classical statues, marble columns, and floral beauty, we invite you to share this unforgettable day with us.
+            </p>
+        </section>
+
         <!-- DETAILS SECTION -->
         <section class="details">
-            <h2>Wedding Details</h2>
             <div class="detail-grid">
                 <div class="detail-item">
                     <h3>Date & Time</h3>
-                    <p>
-                        Arrival at Ceremony Venue: 5:00 PM<br>
-                        Ceremony Starts: 5:30 PM<br>
-                        Bridal Party Photos: 6:00 PM<br>
-                        Optional Buffet Dinner: 7:15 PM<br>
-                        Party on the Strip: 10:00 PM
-                    </p>
+                    <p>Arrival at Ceremony Venue: 5:00 PM<br>Ceremony: 5:30 PM<br>Bridal Party Photos: 6:00 PM<br>Optional Buffet Dinner: 7:15 PM<br>Party on the Strip: 10:00 PM</p>
                 </div>
                 <div class="detail-item">
                     <h3>Location</h3>
@@ -59,12 +65,11 @@
             </div>
         </section>
 
-        <!-- SCHEDULE (ONE ROW) -->
+        <!-- SCHEDULE SECTION -->
         <section class="schedule">
-            <h2>Schedule</h2>
             <ul>
                 <li><span>5:00 PM</span> — Arrival at Ceremony Venue</li>
-                <li><span>5:30 PM</span> — Ceremony in the Roman Garden</li>
+                <li><span>5:30 PM</span> — Ceremony</li>
                 <li><span>6:00 PM</span> — Bridal Party Photos</li>
                 <li><span>7:15 PM</span> — Optional Buffet Dinner</li>
                 <li><span>10:00 PM</span> — Party on the Strip</li>
@@ -74,7 +79,6 @@
         <!-- WEDDING RSVP FORM -->
         <section class="form-section">
             <h2>Wedding RSVP</h2>
-            <p>Please let us know if you will be attending the ceremony.</p>
             <form id="weddingForm">
                 <input type="text" name="name" placeholder="Full Name*" required />
                 <input type="email" name="email" placeholder="Email*" required />
@@ -92,14 +96,14 @@
         <!-- BUFFET RSVP -->
         <section class="form-section buffet">
             <h2>Buffet RSVP — Optional</h2>
-            <p>Cost: <strong>$150 per adult</strong>, <strong>$85 per child (4–10)</strong><br>Please reserve your buffet seats below.</p>
+            <p>Cost: <strong>$150 for Adults</strong>, <strong>$85 for Children (ages 4-10)</strong></p>
             <form id="buffetForm">
                 <input type="text" name="name" placeholder="Full Name*" required />
                 <input type="email" name="email" placeholder="Email*" required />
                 <input type="number" name="buffetGuests" placeholder="Number of Buffet Guests*" min="0" required />
                 <label class="checkbox">
                     <input type="checkbox" required />
-                    I acknowledge the buffet cost of $150 per adult / $85 per child.
+                    I acknowledge the buffet cost.
                 </label>
                 <button type="submit">Submit Buffet RSVP</button>
             </form>
@@ -116,23 +120,21 @@
             </iframe>
         </section>
 
-        <!-- LAS VEGAS VIDEO -->
+        <!-- VIDEO SECTION -->
         <section class="video-section">
-            <h2>Las Vegas Highlights</h2>
             <iframe
-                src="https://www.youtube.com/embed/9uZ8CCa0t4Y?autoplay=0&mute=1"
-                title="Las Vegas Video"
+                src="https://www.youtube.com/embed/9uZ8CCa0t4Y?autoplay=0&mute=1&loop=1&playlist=9uZ8CCa0t4Y"
                 frameborder="0"
-                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen>
             </iframe>
         </section>
-
-        <!-- FOOTER -->
-        <footer>
-            <p>Joseph & Shelby · September 16, 2026</p>
-        </footer>
     </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Joseph & Shelby · September 16, 2026</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
