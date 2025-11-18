@@ -4,13 +4,9 @@ const weddingMessage = document.getElementById("weddingMessage");
 
 weddingForm.addEventListener("submit", async e => {
     e.preventDefault();
-
     weddingMessage.textContent = "Submitting...";
-
     const formData = new FormData(weddingForm);
-
-    // Replace with YOUR Google Script URL
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxcgsO_6g6j-2U-eY-fS4OFnYDiOeRc8k4pTmSV21HLmAK0PqkYSI60WtIZfQv7mq9k/exec";
+    const scriptURL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
     fetch(scriptURL, { method: "POST", body: formData })
         .then(() => {
@@ -28,13 +24,9 @@ const buffetMessage = document.getElementById("buffetMessage");
 
 buffetForm.addEventListener("submit", async e => {
     e.preventDefault();
-
     buffetMessage.textContent = "Submitting...";
-
     const formData = new FormData(buffetForm);
-
-    // Replace with YOUR Google Script URL
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxcgsO_6g6j-2U-eY-fS4OFnYDiOeRc8k4pTmSV21HLmAK0PqkYSI60WtIZfQv7mq9k/exec";
+    const scriptURL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
     fetch(scriptURL, { method: "POST", body: formData })
         .then(() => {
@@ -46,79 +38,42 @@ buffetForm.addEventListener("submit", async e => {
         });
 });
 
-// ----- ENGAGEMENT SLIDESHOW -----
-const slides = document.querySelectorAll(".slideshow-track img");
-const nextButton = document.querySelector(".arrow-right");
-const prevButton = document.querySelector(".arrow-left");
+// ----- SLIDESHOW -----
+const track = document.querySelector(".slideshow-track");
+const slides = Array.from(track.children);
+const nextArrow = document.querySelector(".arrow-right");
+const prevArrow = document.querySelector(".arrow-left");
 
 let currentIndex = 0;
-const slideInterval = 6000; // 6 seconds
-let autoplay;
+const slideCount = slides.length;
 
-// Show a specific slide
-function showSlide(index) {
-    slides.forEach((slide, i) => {
-        slide.classList.toggle("active", i === index);
-    });
+function updateSlide(index) {
+    track.style.transform = `translateX(-${index * 100}%)`;
 }
 
-// Start autoplay
-function startAutoplay() {
-    autoplay = setInterval(() => {
-        currentIndex = (currentIndex + 1) % slides.length;
-        showSlide(currentIndex);
-    }, slideInterval);
+// Automatic rotation every 6 seconds
+let slideInterval = setInterval(() => {
+    currentIndex = (currentIndex + 1) % slideCount;
+    updateSlide(currentIndex);
+}, 6000);
+
+// Arrow navigation
+nextArrow.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % slideCount;
+    updateSlide(currentIndex);
+    resetInterval();
+});
+
+prevArrow.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+    updateSlide(currentIndex);
+    resetInterval();
+});
+
+function resetInterval() {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % slideCount;
+        updateSlide(currentIndex);
+    }, 6000);
 }
-
-// Stop autoplay
-function stopAutoplay() {
-    clearInterval(autoplay);
-}
-
-// Initialize slideshow
-showSlide(currentIndex);
-startAutoplay();
-
-// ----- ARROW NAVIGATION -----
-nextButton.addEventListener("click", () => {
-    stopAutoplay();
-    currentIndex = (currentIndex + 1) % slides.length;
-    showSlide(currentIndex);
-    startAutoplay();
-});
-
-prevButton.addEventListener("click", () => {
-    stopAutoplay();
-    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-    showSlide(currentIndex);
-    startAutoplay();
-});
-
-// ----- SWIPE SUPPORT -----
-let startX = 0;
-let endX = 0;
-const threshold = 50; // minimum swipe distance in px
-const slideshow = document.querySelector(".slideshow-section");
-
-slideshow.addEventListener("touchstart", (e) => {
-    stopAutoplay();
-    startX = e.touches[0].clientX;
-});
-
-slideshow.addEventListener("touchmove", (e) => {
-    endX = e.touches[0].clientX;
-});
-
-slideshow.addEventListener("touchend", () => {
-    const distance = endX - startX;
-    if (distance > threshold) {
-        // Swipe right → previous slide
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        showSlide(currentIndex);
-    } else if (distance < -threshold) {
-        // Swipe left → next slide
-        currentIndex = (currentIndex + 1) % slides.length;
-        showSlide(currentIndex);
-    }
-    startAutoplay();
-});
