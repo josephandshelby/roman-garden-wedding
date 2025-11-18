@@ -1,12 +1,11 @@
-/* ---------- GENERAL ---------- */
 body {
     margin: 0;
     font-family: "Cormorant Garamond", serif;
-    background: #F7F7F7; /* light / marble white */
+    background: #F7F7F7;
     color: #333;
 }
 
-/* ---------- HERO ---------- */
+/* HERO */
 .hero {
     height: 85vh;
     background: url('venus_garden.jpg') center/cover no-repeat;
@@ -19,13 +18,13 @@ body {
 .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.25); /* light overlay */
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .hero-content {
     position: relative;
     text-align: center;
-    background: rgba(255, 255, 255, 0.75); /* slightly transparent white box */
+    background: rgba(255, 255, 255, 0.75);
     padding: 40px 60px;
     border-radius: 10px;
     max-width: 80%;
@@ -48,40 +47,28 @@ body {
     color: #000;
 }
 
-/* ---------- SLIDESHOW ---------- */
+/* SLIDESHOW */
 .slideshow-section {
-    position: relative;
     width: 100%;
-    max-height: 600px;
     overflow: hidden;
     margin: 40px 0;
 }
 
 .slideshow-wrapper {
     position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .slideshow-track {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
 }
 
 .slideshow-track img {
     width: 100%;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-    object-fit: cover;
-    height: 600px;
-}
-
-.slideshow-track img.active {
-    opacity: 1;
-    z-index: 1;
+    flex-shrink: 0;
 }
 
 /* Arrows */
@@ -90,28 +77,22 @@ body {
     top: 50%;
     transform: translateY(-50%);
     font-size: 3rem;
-    color: #A8BBA1; /* sage green */
+    color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     user-select: none;
+    z-index: 10;
     padding: 10px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    transition: background 0.3s;
-}
-
-.arrow:hover {
-    background: rgba(255, 255, 255, 0.8);
 }
 
 .arrow-left {
-    left: 20px;
+    left: 10px;
 }
 
 .arrow-right {
-    right: 20px;
+    right: 10px;
 }
 
-/* ---------- DETAILS ---------- */
+/* DETAILS */
 .detail-grid {
     display: flex;
     justify-content: center;
@@ -125,7 +106,7 @@ body {
     color: #444;
 }
 
-/* ---------- SCHEDULE ---------- */
+/* SCHEDULE */
 .schedule ul {
     list-style: none;
     padding: 0;
@@ -142,7 +123,7 @@ body {
     color: #A8BBA1;
 }
 
-/* ---------- FORMS ---------- */
+/* FORMS */
 .form-section form {
     max-width: 500px;
     margin: 0 auto;
@@ -158,36 +139,16 @@ body {
     font-size: 1.1rem;
     border: 1px solid #ccc;
     border-radius: 6px;
-    background: #FFFFFF; /* white background for form fields */
+    background: #FFFFFF;
     color: #2b2b2b;
 }
 
 button {
     padding: 14px;
-    background: #A8BBA1; /* sage green button */
+    background: #A8BBA1;
     color: white;
     border: none;
     border-radius: 6px;
     font-size: 1.2rem;
     cursor: pointer;
-}
-
-button:hover {
-    background: #8ca78f;
-}
-
-/* ---------- MAP ---------- */
-.map-section iframe {
-    width: 100%;
-    height: 400px;
-    border: 0;
-}
-
-/* ---------- FOOTER ---------- */
-footer {
-    text-align: center;
-    padding: 20px 0;
-    background: #f0f0f0;
-    font-size: 1rem;
-    color: #555;
 }
