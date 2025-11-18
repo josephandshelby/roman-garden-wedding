@@ -118,21 +118,50 @@ body {
     color: #444;
 }
 
-/* SCHEDULE */
-.schedule ul {
-    list-style: none;
-    padding: 0;
+/* SCHEDULE - BOXES */
+.schedule {
+    text-align: center;
+    margin: 40px 0;
 }
 
-.schedule li {
-    font-size: 1.3rem;
-    margin: 10px 0;
-    color: #2b2b2b;
+.schedule h2 {
+    margin-bottom: 30px;
 }
 
-.schedule span {
+.schedule-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.schedule-item {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px 30px;
+    min-width: 180px;
+    max-width: 220px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.schedule-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.schedule-item .time {
+    display: block;
     font-weight: bold;
+    font-size: 1.3rem;
     color: #A8BBA1;
+    margin-bottom: 10px;
+}
+
+.schedule-item p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #2b2b2b;
 }
 
 /* FORMS */
