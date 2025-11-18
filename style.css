@@ -45,10 +45,11 @@ body {
 .slideshow-track {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    width: 100%;
 }
 
 .slideshow-track img {
-    width: 25%; /* smaller images */
+    width: 100%; /* one image at a time */
     object-fit: cover;
 }
 
