@@ -21,11 +21,7 @@
     <!-- FULL-WIDTH ENGAGEMENT SLIDESHOW -->
     <section class="slideshow-section">
         <div class="slideshow-wrapper">
-
-            <!-- LEFT ARROW -->
             <div class="arrow arrow-left">&#10094;</div>
-
-            <!-- IMAGE TRACK -->
             <div class="slideshow-track">
                 <img src="engagement1.jpg" alt="Engagement photo 1">
                 <img src="engagement2.jpg" alt="Engagement photo 2">
@@ -36,30 +32,30 @@
                 <img src="engagement7.jpg" alt="Engagement photo 7">
                 <img src="engagement8.jpg" alt="Engagement photo 8">
             </div>
-
-            <!-- RIGHT ARROW -->
             <div class="arrow arrow-right">&#10095;</div>
-
         </div>
     </section>
 
-    <!-- ABOUT SECTION -->
-    <section class="about">
-        <h2>Welcome to Our Celebration</h2>
-        <p>
-            Join us for an elegant Roman Garden wedding at the iconic Caesars Palace in Las Vegas.
-            Surrounded by classical statues, marble columns, and floral beauty, we invite you to share this unforgettable day with us.
-        </p>
+    <!-- FULL-WIDTH BACKGROUND IMAGE SECTION -->
+    <section class="background-section">
+        <div class="background-overlay">
+            <div class="background-content">
+                <h2>Our Memories in the Garden</h2>
+                <p>Join us as we celebrate love and laughter.</p>
+            </div>
+        </div>
     </section>
 
     <!-- DETAILS SECTION -->
     <section class="details">
         <h2>Wedding Details</h2>
-        <div class="detail-grid">
+        <div class="detail-grid-vertical">
+            <!-- Date & Time FIRST -->
             <div class="detail-item">
                 <h3>Date & Time</h3>
                 <p>Wednesday, September 16, 2026<br>5:00 PM</p>
             </div>
+            <!-- Location SECOND -->
             <div class="detail-item">
                 <h3>Location</h3>
                 <p>Caesars Palace<br>3570 S Las Vegas Blvd<br>Paradise, NV 89109</p>
@@ -67,40 +63,53 @@
         </div>
     </section>
 
-<!-- SCHEDULE -->
-<section class="schedule">
-    <h2>Schedule</h2>
-    <div class="schedule-grid">
-        <div class="schedule-item">
-            <span class="time">5:00 PM</span>
-            <p>Arrival at Ceremony Venue</p>
+    <!-- SCHEDULE -->
+    <section class="schedule">
+        <h2>Schedule</h2>
+        <div class="schedule-grid">
+            <div class="schedule-item">
+                <span class="time">5:00 PM</span>
+                <p>Arrival at Ceremony Venue</p>
+            </div>
+            <div class="schedule-item">
+                <span class="time">5:30 PM</span>
+                <p>Ceremony in the Roman Garden</p>
+            </div>
+            <div class="schedule-item">
+                <span class="time">6:00 PM</span>
+                <p>Bridal Party Photos</p>
+            </div>
+            <div class="schedule-item">
+                <span class="time">7:15 PM</span>
+                <p>Optional Buffet Dinner</p>
+            </div>
+            <div class="schedule-item">
+                <span class="time">10:00 PM</span>
+                <p>Party on the Strip</p>
+            </div>
         </div>
-        <div class="schedule-item">
-            <span class="time">5:30 PM</span>
-            <p>Ceremony in the Roman Garden</p>
-        </div>
-        <div class="schedule-item">
-            <span class="time">6:00 PM</span>
-            <p>Bridal Party Photos</p>
-        </div>
-        <div class="schedule-item">
-            <span class="time">7:15 PM</span>
-            <p>Optional Buffet Dinner</p>
-        </div>
-        <div class="schedule-item">
-            <span class="time">10:00 PM</span>
-            <p>Party on the Strip</p>
-        </div>
-    </div>
-</section>
+    </section>
 
+    <!-- VIDEO SECTION -->
+    <section class="video-section">
+        <div class="video-wrapper">
+            <iframe 
+                width="100%" 
+                height="500" 
+                src="https://www.youtube.com/embed/9uZ8CCa0t4Y?autoplay=0&mute=1&controls=1&rel=0" 
+                title="Las Vegas Video" 
+                frameborder="0" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </section>
 
     <!-- WEDDING RSVP FORM -->
     <section class="form-section">
         <h2>Wedding RSVP</h2>
         <p>Please let us know if you will be attending the ceremony.</p>
 
-        <form id="weddingForm">
+        <form id="weddingForm" class="centered-form">
             <input type="text" name="name" placeholder="Full Name*" required />
             <input type="email" name="email" placeholder="Email*" required />
             <select name="attending" required>
@@ -109,7 +118,6 @@
                 <option value="No">No</option>
             </select>
             <input type="number" name="guests" placeholder="Number of Guests" min="0" />
-            <textarea name="notes" placeholder="Notes (diet, allergies, etc.)"></textarea>
 
             <button type="submit">Submit RSVP</button>
         </form>
@@ -118,30 +126,28 @@
     </section>
 
     <!-- BUFFET RSVP -->
-<section class="form-section buffet">
-    <h2>Buffet RSVP — Optional</h2>
-    <p>
-        Cost: <strong>$150 per adult</strong>, <strong>$85 per child (age 4–10)</strong><br>
-        Please reserve your buffet seats below.
-    </p>
+    <section class="form-section buffet">
+        <h2>Buffet RSVP — Optional</h2>
+        <p>
+            Cost: <strong>$150 per adult</strong>, <strong>$85 per child (age 4–10)</strong><br>
+            Please reserve your buffet seats below.
+        </p>
 
-    <form id="buffetForm">
-        <input type="text" name="name" placeholder="Full Name*" required />
-        <input type="email" name="email" placeholder="Email*" required />
-        <input type="number" name="buffetGuests" placeholder="Number of Buffet Guests*" min="0" required />
-        <textarea name="notes" placeholder="Notes"></textarea>
+        <form id="buffetForm" class="centered-form">
+            <input type="text" name="name" placeholder="Full Name*" required />
+            <input type="email" name="email" placeholder="Email*" required />
+            <input type="number" name="buffetGuests" placeholder="Number of Buffet Guests*" min="0" required />
 
-        <label class="checkbox">
-            <input type="checkbox" required />
-            I acknowledge the buffet cost.
-        </label>
+            <label class="checkbox">
+                <input type="checkbox" required />
+                I acknowledge the buffet cost.
+            </label>
 
-        <button type="submit">Submit Buffet RSVP</button>
-    </form>
+            <button type="submit">Submit Buffet RSVP</button>
+        </form>
 
-    <div id="buffetMessage" class="form-message"></div>
-</section>
-
+        <div id="buffetMessage" class="form-message"></div>
+    </section>
 
     <!-- MAP -->
     <section class="map-section">
@@ -153,22 +159,6 @@
         </iframe>
     </section>
 
-    <!-- LAS VEGAS VIDEO SECTION -->
-    <section class="video-section">
-        <h2>Explore Las Vegas</h2>
-        <div class="video-wrapper">
-            <iframe 
-                width="100%" 
-                height="500" 
-                src="https://www.youtube.com/embed/9uZ8CCa0t4Y?autoplay=1&mute=1&loop=1&playlist=9uZ8CCa0t4Y" 
-                title="Las Vegas Video" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media; picture-in-picture" 
-                allowfullscreen>
-            </iframe>
-        </div>
-    </section>
-
     <!-- FOOTER -->
     <footer>
         <p>Joseph & Shelby · September 16, 2026</p>
@@ -177,5 +167,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
