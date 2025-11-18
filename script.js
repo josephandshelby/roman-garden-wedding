@@ -101,3 +101,50 @@ buffetForm.addEventListener("submit", async e => {
             buffetMessage.textContent = "Submission error. Please try again.";
         });
 });
+
+document.getElementById("spin-btn").addEventListener("click", () => {
+  const reels = ["reel1", "reel2", "reel3"];
+  const chime = document.getElementById("chime-sound");
+  let completed = 0;
+
+  // Disable button after first click
+  document.getElementById("spin-btn").disabled = true;
+
+  reels.forEach(reelId => {
+    const reel = document.getElementById(reelId);
+    let spins = 0;
+    const interval = setInterval(() => {
+      reel.textContent = "❤️"; // all spins are hearts
+      spins++;
+      if (spins > 10) {
+        clearInterval(interval);
+        reel.textContent = "❤️";
+        reel.classList.add("bounce"); // bounce effect
+        setTimeout(() => reel.classList.remove("bounce"), 500);
+        completed++;
+        if (completed === 3) {
+          chime.play(); // play chime
+          triggerConfetti();
+          // fade out overlay after confetti
+          setTimeout(() => {
+            document.getElementById("slot-overlay").style.display = "none";
+          }, 1500);
+        }
+      }
+    }, 100 + Math.random() * 100);
+  });
+});
+
+function triggerConfetti() {
+  const container = document.getElementById("confetti-container");
+  for (let i = 0; i < 25; i++) { // small number for subtle effect
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.style.left = `${Math.random() * 90 + 5}%`;
+    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 50%)`;
+    container.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 1000);
+  }
+}
+
+
