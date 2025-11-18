@@ -1,221 +1,218 @@
-/* ====== GLOBAL ====== */
-body {
-    margin: 0;
-    font-family: "Cormorant Garamond", serif;
-    background: #F7F7F7;
-    color: #333;
+/* ------------------------------
+   GLOBAL BASE STYLES
+------------------------------ */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: "Georgia", serif;
+  background: #ffffff;
+  overflow-x: hidden;
 }
 
-h2 {
-    text-align: center;
+/* After slot machine disappears, the rest of the site shows normally */
+#main-content {
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
-/* ====== HERO ====== */
-.hero {
-    height: 85vh;
-    background: url('venus_garden.jpg') center/cover no-repeat;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.25);
-}
-
-.hero-content {
-    position: relative;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.75);
-    padding: 40px 60px;
-    border-radius: 10px;
-    max-width: 80%;
-}
-
-.hero h1, .hero h2, .hero p {
-    color: #000;
-}
-
-/* ====== SLIDESHOW ====== */
-.slideshow-section {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-}
-
-.slideshow-wrapper {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.slideshow-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    width: 100%;
-}
-
-.slideshow-track img {
-    width: 100%;
-    object-fit: cover;
-}
-
-.arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2rem;
-    background: rgba(255,255,255,0.5);
-    padding: 10px;
-    cursor: pointer;
-    z-index: 2;
-    border-radius: 5px;
-}
-
-.arrow-left { left: 10px; }
-.arrow-right { right: 10px; }
-
-/* ====== DETAILS & SCHEDULE ====== */
-.details, .schedule, .form-section, .buffet, .map-section, .video-section {
-    padding: 30px 20px;
-    background: #fff;
-    margin: 10px 0;
-}
-
-.detail-item { margin-bottom: 20px; }
-
-.schedule ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    padding: 0;
-}
-
-.schedule li {
-    font-size: 1rem;
-    text-align: center;
-}
-
-/* ====== FORMS ====== */
-.form-section form, .buffet form {
-    display: flex;
-    flex-direction: column;
-    max-width: 400px;
-    margin: 0 auto;
-    gap: 10px;
-}
-
-button {
-    padding: 12px;
-    background: #A8BBA1;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-/* ====== MAP ====== */
-.map-section iframe {
-    width: 100%;
-    height: 500px;
-    border: none;
-}
-
-/* ====== VIDEO ====== */
-.video-section iframe {
-    width: 100%;
-    height: 500px;
-}
-
-/* ====== SLOT MACHINE OVERLAY ====== */
+/* ------------------------------
+   SLOT MACHINE OVERLAY
+------------------------------ */
 #slot-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: #000000cc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    flex-direction: column;
-    color: #fff;
-    text-align: center;
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #e8e6df 0%, #b7b4a9 100%);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.slot-container {
-    background: #fff;
-    color: #000;
-    padding: 30px;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
-    max-width: 80%;
-}
-
+/* Container */
 .slot-machine {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
-    width: 100%;
+  width: 260px;
+  padding: 20px;
+  background: #8b0000;
+  border-radius: 18px;
+  border: 6px solid gold;
+  box-shadow: 0 0 25px rgba(0,0,0,0.4);
+  text-align: center;
+  position: relative;
 }
 
+/* Retro title */
+.slot-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: gold;
+  text-shadow: 2px 2px 3px #000;
+  margin-bottom: 12px;
+}
+
+/* Slot reel wrapper */
+.reels {
+  display: flex;
+  justify-content: space-between;
+  background: #333;
+  border: 4px solid #111;
+  border-radius: 10px;
+  padding: 10px;
+  height: 70px;
+  overflow: hidden;
+}
+
+/* Each reel */
 .reel {
-    width: 50px;
-    height: 50px;
-    font-size: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid #333;
-    border-radius: 10px;
+  width: 60px;
+  height: 60px;
+  background: #222;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  font-size: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
 }
 
-#spin-btn {
-    padding: 10px 20px;
-    cursor: pointer;
-    background: #A8BBA1;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
+/* Reel spinning animation */
+.reel-content {
+  display: flex;
+  flex-direction: column;
+  animation: none;
+  font-size: 40px;
 }
 
-.bounce {
-    animation: bounce 0.3s ease forwards;
+/* Keyframes for spinning */
+@keyframes spin {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-180px); }
 }
 
-@keyframes bounce {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
+/* Slot handle */
+.slot-handle {
+  position: absolute;
+  right: -40px;
+  top: 40px;
+  width: 20px;
+  height: 80px;
+  background: silver;
+  border-radius: 10px;
+  border: 3px solid #555;
 }
 
-#confetti-container {
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    top: -50px;
-    left: 0;
-    pointer-events: none;
-    overflow: visible;
+.slot-knob {
+  position: absolute;
+  right: -12px;
+  top: -10px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: red;
+  border: 3px solid #550000;
 }
 
+/* Clickable ghost button over the handle */
+#spin-button {
+  position: absolute;
+  right: -60px;
+  top: 0;
+  width: 80px;
+  height: 140px;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* Handle pull animation */
+@keyframes pullHandle {
+  0% { transform: translateY(0); }
+  40% { transform: translateY(25px); }
+  100% { transform: translateY(0); }
+}
+
+.handle-animate {
+  animation: pullHandle 0.45s ease;
+}
+
+/* ------------------------------
+   CONFETTI
+------------------------------ */
 .confetti {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background-color: red;
-    border-radius: 50%;
-    animation: confetti-fall 0.8s linear forwards;
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  background: hsl(var(--hue), 80%, 60%);
+  animation: fall 2s linear forwards;
+  z-index: 99999;
 }
 
-@keyframes confetti-fall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0); opacity: 1; }
+  100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+}
+
+/* ------------------------------
+   ENGAGEMENT PHOTOS FIX
+------------------------------ */
+.engagement-gallery {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.engagement-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.engagement-slide {
+  display: none;
+}
+
+.engagement-slide.active {
+  display: block;
+}
+
+/* ------------------------------
+   TEXT SECTION WHITE BACKGROUND
+------------------------------ */
+.section-white {
+  background: #ffffff;
+  padding: 40px 20px;
+  border-radius: 14px;
+  margin: 30px auto;
+  max-width: 900px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+/* ------------------------------
+   LOCATION MAP ADJUSTMENTS
+------------------------------ */
+#location-map {
+  width: 100%;
+  height: 420px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ------------------------------
+   BACKGROUND (TRIPLE REPEAT)
+------------------------------ */
+body {
+  background-image: url('venus_garden.avif');
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  background-attachment: fixed;
+}
+
+/* AVIF fallback */
+@supports not (background-image: url('venus_garden.avif')) {
+  body {
+    background-image: url('venus_garden.jpg');
+  }
 }
