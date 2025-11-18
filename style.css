@@ -49,8 +49,9 @@ body {
 }
 
 .slideshow-track img {
-    width: 100%; /* one image at a time */
-    object-fit: cover;
+    width: 100%;       /* keep full width */
+    height: 400px;     /* set desired height */
+    object-fit: cover; /* crop to fill without stretching */
 }
 
 .arrow {
@@ -142,3 +143,4 @@ button {
     height: 500px;
     border: none;
 }
+
