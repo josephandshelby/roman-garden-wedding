@@ -6,7 +6,7 @@ body {
     background: #F7F7F7;
 }
 
-/* ---------- HERO SECTION ---------- */
+/* ---------- HERO ---------- */
 .hero {
     height: 85vh;
     background: url('venus_garden.jpg') center/cover no-repeat;
@@ -36,13 +36,11 @@ body {
     margin: 0.5em 0;
 }
 
-/* ---------- ENGAGEMENT SLIDESHOW ---------- */
+/* ---------- SLIDESHOW ---------- */
 .slideshow-wrapper {
     position: relative;
-    overflow: hidden;   /* hides extra images outside the view */
     width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
+    overflow: hidden;
 }
 
 .slideshow-track {
@@ -51,10 +49,10 @@ body {
 }
 
 .slideshow-track img {
-    width: 100%;       /* each image fills the wrapper */
-    flex-shrink: 0;    /* prevents images from shrinking */
-    height: 400px;     /* desired height */
-    object-fit: cover; /* crop without stretching */
+    width: 100%;
+    flex-shrink: 0;    /* prevents multiple images showing */
+    height: 400px;
+    object-fit: cover;
 }
 
 .arrow {
@@ -70,7 +68,7 @@ body {
 .arrow-left { left: 10px; }
 .arrow-right { right: 10px; }
 
-/* ---------- BACKGROUND FOR REMAINING SECTIONS ---------- */
+/* ---------- BACKGROUND ---------- */
 .body-background {
     background-image: url('background-image.jpg');
     background-repeat: repeat;
@@ -78,20 +76,20 @@ body {
     background-attachment: fixed;
 }
 
-/* ---------- ALL SECTIONS AFTER SLIDES ---------- */
+/* ---------- TEXT SECTIONS ---------- */
 .body-background section {
-    background: rgba(255, 255, 255, 0.85); /* semi-transparent white */
+    background: rgba(255, 255, 255, 0.85);
     padding: 50px 20px;
     margin: 20px auto;
     border-radius: 10px;
-    max-width: 1000px; /* constrain width for readability */
+    max-width: 1000px;
     text-align: center;
 }
 
 /* ---------- DETAILS ---------- */
 .detail-grid {
     display: flex;
-    flex-direction: column; /* date above location */
+    flex-direction: column;
     align-items: center;
     gap: 30px;
 }
@@ -144,7 +142,7 @@ button {
 /* ---------- MAP ---------- */
 .map-section iframe {
     width: 90%;
-    height: 500px; /* larger map */
+    height: 500px;
     border: none;
 }
 
@@ -162,4 +160,3 @@ footer {
     font-size: 1rem;
     color: #444;
 }
-
