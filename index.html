@@ -118,26 +118,30 @@
     </section>
 
     <!-- BUFFET RSVP -->
-    <section class="form-section buffet">
-        <h2>Buffet RSVP — Optional</h2>
-        <p>Cost: <strong>$45 per person</strong><br>Please reserve your buffet seats below.</p>
+<section class="form-section buffet">
+    <h2>Buffet RSVP — Optional</h2>
+    <p>
+        Cost: <strong>$150 per adult</strong>, <strong>$85 per child (age 4–10)</strong><br>
+        Please reserve your buffet seats below.
+    </p>
 
-        <form id="buffetForm">
-            <input type="text" name="name" placeholder="Full Name*" required />
-            <input type="email" name="email" placeholder="Email*" required />
-            <input type="number" name="buffetGuests" placeholder="Number of Buffet Guests*" min="0" required />
-            <textarea name="notes" placeholder="Notes"></textarea>
+    <form id="buffetForm">
+        <input type="text" name="name" placeholder="Full Name*" required />
+        <input type="email" name="email" placeholder="Email*" required />
+        <input type="number" name="buffetGuests" placeholder="Number of Buffet Guests*" min="0" required />
+        <textarea name="notes" placeholder="Notes"></textarea>
 
-            <label class="checkbox">
-                <input type="checkbox" required />
-                I acknowledge the buffet cost of $45 per person.
-            </label>
+        <label class="checkbox">
+            <input type="checkbox" required />
+            I acknowledge the buffet cost.
+        </label>
 
-            <button type="submit">Submit Buffet RSVP</button>
-        </form>
+        <button type="submit">Submit Buffet RSVP</button>
+    </form>
 
-        <div id="buffetMessage" class="form-message"></div>
-    </section>
+    <div id="buffetMessage" class="form-message"></div>
+</section>
+
 
     <!-- MAP -->
     <section class="map-section">
@@ -173,4 +177,5 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
