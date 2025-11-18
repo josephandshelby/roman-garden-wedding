@@ -55,85 +55,93 @@ document.addEventListener("DOMContentLoaded", () => {
     handleFormSubmit(weddingForm, weddingMessage);
     handleFormSubmit(buffetForm, buffetMessage);
 
-const wheelSymbols = ["🍒","🍋","🔔","💖","💍"]; // emojis as placeholders
-const targetSymbols = ["💖","💖","💍"]; // hearts, hearts, rings
-
+// ---------- SLOT MACHINE LOGIC ----------
 const wheels = [
-  document.getElementById("wheel1"),
-  document.getElementById("wheel2"),
-  document.getElementById("wheel3")
+    document.getElementById("wheel1"),
+    document.getElementById("wheel2"),
+    document.getElementById("wheel3")
 ];
+
+// Vegas-style symbols (replace with images if you want)
+const symbols = ["🍒","🍋","🔔","💖","💍"];
+const targetSymbols = ["💖","💖","💍"]; // hearts, hearts, rings
 
 const spinButton = document.getElementById("spinButton");
 const overlay = document.getElementById("slotOverlay");
+
 const confettiCanvas = document.getElementById("confetti");
 const ctx = confettiCanvas.getContext("2d");
 confettiCanvas.width = window.innerWidth;
 confettiCanvas.height = window.innerHeight;
 
+// Confetti setup
 let confettiParticles = [];
-
-function createConfetti(){
-  confettiParticles = [];
-  for(let i=0;i<150;i++){
-    confettiParticles.push({
-      x: Math.random()*window.innerWidth,
-      y: Math.random()*-50,
-      vx: (Math.random()-0.5)*6,
-      vy: Math.random()*6+3,
-      size: Math.random()*8+4,
-      color: ["#ff69b4","#ffd700","#ff1493","#e74c3c","#ffffff"][Math.floor(Math.random()*5)]
-    });
-  }
+function createConfetti() {
+    confettiParticles = [];
+    for(let i=0;i<150;i++){
+        confettiParticles.push({
+            x: Math.random()*window.innerWidth,
+            y: Math.random()*-50,
+            vx: (Math.random()-0.5)*6,
+            vy: Math.random()*6+3,
+            size: Math.random()*8+4,
+            color: ["#ff69b4","#ffd700","#ff1493","#e74c3c","#ffffff"][Math.floor(Math.random()*5)]
+        });
+    }
 }
 
 function animateConfetti(){
-  ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
-  confettiParticles.forEach((p,i)=>{
-    ctx.fillStyle = p.color;
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-    ctx.fill();
-    p.x += p.vx;
-    p.y += p.vy;
-    if(p.y>window.innerHeight || p.x<0 || p.x>window.innerWidth) confettiParticles.splice(i,1);
-  });
-  if(confettiParticles.length>0) requestAnimationFrame(animateConfetti);
+    ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+    confettiParticles.forEach((p,i)=>{
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fill();
+        p.x += p.vx;
+        p.y += p.vy;
+        if(p.y>window.innerHeight || p.x<0 || p.x>window.innerWidth) confettiParticles.splice(i,1);
+    });
+    if(confettiParticles.length>0) requestAnimationFrame(animateConfetti);
 }
 
+// Spin one wheel in place
 function spinWheel(wheel, target, duration){
-  return new Promise(resolve=>{
-    const start = performance.now();
-    let angle = 0;
-    function animate(time){
-      let elapsed = time-start;
-      let progress = Math.min(elapsed/duration,1);
-      let spinAngle = progress*360*5; // 5 spins
-      wheel.style.transform = `rotate(${spinAngle}deg)`;
-      if(progress<1) requestAnimationFrame(animate);
-      else{
-        // stop at target
-        wheel.textContent = target;
-        resolve();
-      }
-    }
-    requestAnimationFrame(animate);
-  });
+    return new Promise(resolve=>{
+        let start = null;
+        const spins = 10; // number of rotations
+        function animate(time){
+            if(!start) start=time;
+            let progress = Math.min((time-start)/duration,1);
+            let angle = spins*360*progress;
+            wheel.style.transform = `rotate(${angle}deg)`;
+            if(progress<1) requestAnimationFrame(animate);
+            else{
+                wheel.textContent = target;
+                resolve();
+            }
+        }
+        requestAnimationFrame(animate);
+    });
 }
 
+// Spin all wheels sequentially
 async function spinAll(){
-  spinButton.disabled=true;
-  // clear wheels first
-  wheels.forEach(w=> w.textContent="❓");
+    spinButton.disabled = true;
+    wheels.forEach(w=>w.textContent="❓"); // reset wheels
+    await spinWheel(wheels[0], targetSymbols[0], 1500);
+    await spinWheel(wheels[1], targetSymbols[1], 2000);
+    await spinWheel(wheels[2], targetSymbols[2], 2500);
 
-  await spinWheel(wheels[0], targetSymbols[0], 1500);
-  await spinWheel(wheels[1], targetSymbols[1], 2000);
-  await spinWheel(wheels[2], targetSymbols[2], 2500);
+    createConfetti();
+    animateConfetti();
 
-  createConfetti();
-  animateConfetti();
-
-  setTimeout(()=>{ overlay.style.display="none"; document.body.classList.add("reveal-site"); }, 2500);
+    // Remove overlay after short delay
+    setTimeout(()=>{
+        overlay.style.display="none";
+        document.body.classList.add("reveal-site");
+    },2500);
 }
 
+// Click or touch to spin
 spinButton.addEventListener("click", spinAll);
+wheels.forEach(wheel => wheel.addEventListener("click", spinAll));
