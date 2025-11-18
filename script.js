@@ -55,119 +55,85 @@ document.addEventListener("DOMContentLoaded", () => {
     handleFormSubmit(weddingForm, weddingMessage);
     handleFormSubmit(buffetForm, buffetMessage);
 
- /*** SLOT MACHINE OVERLAY ***/
-const symbols = ["heart.png","ring.png","cherry.png","lemon.png","bell.png"];
-const targetSymbols = ["heart.png","heart.png","ring.png"];
-const symbolHeight = 120; // matches CSS
+const wheelSymbols = ["🍒","🍋","🔔","💖","💍"]; // emojis as placeholders
+const targetSymbols = ["💖","💖","💍"]; // hearts, hearts, rings
 
-const reels = [
-  document.getElementById("reel1"),
-  document.getElementById("reel2"),
-  document.getElementById("reel3")
+const wheels = [
+  document.getElementById("wheel1"),
+  document.getElementById("wheel2"),
+  document.getElementById("wheel3")
 ];
 
 const spinButton = document.getElementById("spinButton");
-const lever = document.getElementById("lever");
-const resultMessage = document.getElementById("resultMessage");
-const slotOverlay = document.getElementById("slotOverlay");
+const overlay = document.getElementById("slotOverlay");
+const confettiCanvas = document.getElementById("confetti");
+const ctx = confettiCanvas.getContext("2d");
+confettiCanvas.width = window.innerWidth;
+confettiCanvas.height = window.innerHeight;
 
-const particlesCanvas = document.getElementById("particles");
-const ctx = particlesCanvas.getContext("2d");
-particlesCanvas.width = window.innerWidth;
-particlesCanvas.height = window.innerHeight;
+let confettiParticles = [];
 
-// Fill reels with symbols
-reels.forEach(reel=>{
-  symbols.forEach(sym=>{
-    const img = document.createElement("img");
-    img.src = sym;
-    reel.appendChild(img);
-  });
-});
-
-function spinReel(reel, targetSymbol, duration){
-  return new Promise(resolve=>{
-    const totalSymbols = symbols.length;
-    const start = performance.now();
-
-    function animate(time){
-      let elapsed = time-start;
-      let progress = Math.min(elapsed/duration,1);
-      let eased = 1 - Math.pow(1-progress,3);
-      let symbolIndex = Math.floor((eased*totalSymbols*10)%totalSymbols);
-      reel.style.transform = `translateY(-${symbolIndex*symbolHeight}px)`;
-
-      if(progress<1) requestAnimationFrame(animate);
-      else {
-        const finalIndex = symbols.indexOf(targetSymbol);
-        reel.style.transform = `translateY(-${finalIndex*symbolHeight}px)`;
-        resolve(finalIndex);
-      }
-    }
-
-    requestAnimationFrame(animate);
-  });
-}
-
-// Confetti particles
-let particles=[];
-function createParticles(){
+function createConfetti(){
+  confettiParticles = [];
   for(let i=0;i<150;i++){
-    particles.push({
-      x:Math.random()*window.innerWidth,
-      y:Math.random()*-50,
-      vx:(Math.random()-0.5)*6,
-      vy:Math.random()*6+3,
-      alpha:1,
-      size:Math.random()*8+4,
-      color:["#ff69b4","#ffd700","#ff1493","#e74c3c","#ffffff"][Math.floor(Math.random()*5)]
+    confettiParticles.push({
+      x: Math.random()*window.innerWidth,
+      y: Math.random()*-50,
+      vx: (Math.random()-0.5)*6,
+      vy: Math.random()*6+3,
+      size: Math.random()*8+4,
+      color: ["#ff69b4","#ffd700","#ff1493","#e74c3c","#ffffff"][Math.floor(Math.random()*5)]
     });
   }
 }
 
-function animateParticles(){
-  ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-  particles.forEach((p,i)=>{
-    ctx.globalAlpha = p.alpha;
+function animateConfetti(){
+  ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+  confettiParticles.forEach((p,i)=>{
     ctx.fillStyle = p.color;
     ctx.beginPath();
     ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
     ctx.fill();
-
     p.x += p.vx;
     p.y += p.vy;
-    p.alpha -= 0.02;
-
-    if(p.alpha<=0) particles.splice(i,1);
+    if(p.y>window.innerHeight || p.x<0 || p.x>window.innerWidth) confettiParticles.splice(i,1);
   });
-  if(particles.length>0) requestAnimationFrame(animateParticles);
+  if(confettiParticles.length>0) requestAnimationFrame(animateConfetti);
 }
 
-function pullLever(){
-  lever.style.transform="rotate(30deg)";
-  setTimeout(()=>lever.style.transform="rotate(0deg)",200);
+function spinWheel(wheel, target, duration){
+  return new Promise(resolve=>{
+    const start = performance.now();
+    let angle = 0;
+    function animate(time){
+      let elapsed = time-start;
+      let progress = Math.min(elapsed/duration,1);
+      let spinAngle = progress*360*5; // 5 spins
+      wheel.style.transform = `rotate(${spinAngle}deg)`;
+      if(progress<1) requestAnimationFrame(animate);
+      else{
+        // stop at target
+        wheel.textContent = target;
+        resolve();
+      }
+    }
+    requestAnimationFrame(animate);
+  });
 }
 
-async function spinSlotMachine(){
-  spinButton.disabled = true;
-  resultMessage.textContent = "";
-  pullLever();
+async function spinAll(){
+  spinButton.disabled=true;
+  // clear wheels first
+  wheels.forEach(w=> w.textContent="❓");
 
-  await Promise.all([
-    spinReel(reels[0], targetSymbols[0], 2000),
-    spinReel(reels[1], targetSymbols[1], 2800),
-    spinReel(reels[2], targetSymbols[2], 3600)
-  ]);
+  await spinWheel(wheels[0], targetSymbols[0], 1500);
+  await spinWheel(wheels[1], targetSymbols[1], 2000);
+  await spinWheel(wheels[2], targetSymbols[2], 2500);
 
-  resultMessage.textContent="💖 You got love & rings! 💍";
-  createParticles();
-  animateParticles();
+  createConfetti();
+  animateConfetti();
 
-  setTimeout(()=>{
-    slotOverlay.style.display="none";
-    document.body.classList.add("reveal-site");
-  },2500);
+  setTimeout(()=>{ overlay.style.display="none"; document.body.classList.add("reveal-site"); }, 2500);
 }
 
-spinButton.addEventListener("click", spinSlotMachine);
-lever.addEventListener("click", spinSlotMachine);
+spinButton.addEventListener("click", spinAll);
