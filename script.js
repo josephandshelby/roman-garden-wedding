@@ -55,32 +55,28 @@ document.addEventListener("DOMContentLoaded", () => {
     handleFormSubmit(weddingForm, weddingMessage);
     handleFormSubmit(buffetForm, buffetMessage);
 
-
-// Vegas-style slot machine overlay
-const wheels = [
-    document.getElementById("wheel1"),
-    document.getElementById("wheel2"),
-    document.getElementById("wheel3")
+// Reels and symbols
+const reels = [
+    document.getElementById("reel1"),
+    document.getElementById("reel2"),
+    document.getElementById("reel3")
 ];
+
+const symbols = ["🍒","🍋","🔔","💖","💍"];
+const targetSymbols = ["💖","💖","💍"]; // heart, heart, wedding bands
 
 const spinButton = document.getElementById("spinButton");
 const overlay = document.getElementById("slotOverlay");
-
 const confettiCanvas = document.getElementById("confetti");
 const ctx = confettiCanvas.getContext("2d");
 confettiCanvas.width = window.innerWidth;
 confettiCanvas.height = window.innerHeight;
 
-// Symbols (use emojis or swap with images)
-const symbols = ["🍒","🍋","🔔","💖","💍"];
-const targetSymbols = ["💖","💖","💍"]; // hearts, hearts, ring
-
 // Confetti
-let confettiParticles = [];
 function createConfetti(){
-    confettiParticles = [];
+    const particles = [];
     for(let i=0;i<150;i++){
-        confettiParticles.push({
+        particles.push({
             x: Math.random()*window.innerWidth,
             y: Math.random()*-50,
             vx: (Math.random()-0.5)*6,
@@ -89,34 +85,51 @@ function createConfetti(){
             color: ["#ff69b4","#ffd700","#ff1493","#e74c3c","#ffffff"][Math.floor(Math.random()*5)]
         });
     }
+    return particles;
 }
-function animateConfetti(){
+
+function animateConfetti(particles){
     ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
-    confettiParticles.forEach((p,i)=>{
-        ctx.fillStyle = p.color;
+    particles.forEach((p,i)=>{
+        ctx.fillStyle=p.color;
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
         ctx.fill();
         p.x += p.vx;
         p.y += p.vy;
-        if(p.y>window.innerHeight || p.x<0 || p.x>window.innerWidth) confettiParticles.splice(i,1);
+        if(p.y>window.innerHeight||p.x<0||p.x>window.innerWidth) particles.splice(i,1);
     });
-    if(confettiParticles.length>0) requestAnimationFrame(animateConfetti);
+    if(particles.length>0) requestAnimationFrame(()=>animateConfetti(particles));
 }
 
-// Spin wheel in place
-function spinWheel(wheel, target, duration){
+// Spin one reel
+function spinReel(reel,target,duration){
     return new Promise(resolve=>{
-        let start = null;
-        const spins = 10; // number of full rotations
+        reel.innerHTML="";
+        let sequence = [];
+        for(let i=0;i<20;i++){
+            sequence.push(symbols[Math.floor(Math.random()*symbols.length)]);
+        }
+        sequence.push(target); // last symbol is target
+        const start = performance.now();
         function animate(time){
-            if(!start) start=time;
-            let progress = Math.min((time-start)/duration,1);
-            let angle = spins*360*progress;
-            wheel.style.transform = `rotate(${angle}deg)`;
+            const elapsed = time-start;
+            const progress = Math.min(elapsed/duration,1);
+            const index = Math.floor(progress * sequence.length);
+            reel.innerHTML="";
+            for(let i=index;i<index+3;i++){
+                const sym = document.createElement("div");
+                sym.className="symbol";
+                sym.textContent=sequence[i%sequence.length];
+                reel.appendChild(sym);
+            }
             if(progress<1) requestAnimationFrame(animate);
-            else {
-                wheel.textContent = target;
+            else{
+                reel.innerHTML="";
+                const final = document.createElement("div");
+                final.className="symbol";
+                final.textContent=target;
+                reel.appendChild(final);
                 resolve();
             }
         }
@@ -124,19 +137,21 @@ function spinWheel(wheel, target, duration){
     });
 }
 
-// Sequential spin
+// Spin all reels sequentially
 async function spinAll(){
-    spinButton.disabled = true;
-    wheels.forEach(w=> w.textContent="❓");
+    spinButton.disabled=true;
+    reels.forEach(r=> r.innerHTML="❓");
 
-    await spinWheel(wheels[0], targetSymbols[0], 1500);
-    await spinWheel(wheels[1], targetSymbols[1], 2000);
-    await spinWheel(wheels[2], targetSymbols[2], 2500);
+    for(let i=0;i<reels.length;i++){
+        await spinReel(reels[i],targetSymbols[i],1500 + i*500);
+    }
 
-    createConfetti();
-    animateConfetti();
+    const confetti=createConfetti();
+    animateConfetti(confetti);
 
-    setTimeout(()=> overlay.style.display="none", 2500);
+    setTimeout(()=>overlay.style.display="none",2500);
 }
 
-spinButton.addEventListener("click", spinAll);
+// Ensure it works on click/tap
+spinButton.addEventListener("click",spinAll);
+
