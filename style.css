@@ -19,30 +19,37 @@ body {
 .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.4); /* soften overlay */
+    background: rgba(255, 255, 255, 0.25); /* light overlay */
 }
 
+/* WHITE BOX BEHIND TEXT */
 .hero-content {
     position: relative;
     text-align: center;
-    color: #2b2b2b;
+
+    background: rgba(255, 255, 255, 0.75); /* slightly transparent white box */
+    padding: 40px 60px;
+    border-radius: 10px;
+
+    max-width: 80%;
 }
 
+/* HERO TEXT (all black) */
 .hero h1 {
     font-size: 4rem;
     margin: 0;
-    color: #ffffff;
+    color: #000;
 }
 
 .hero h2 {
     font-size: 2rem;
     margin: 10px 0;
-    color: #A8BBA1;
+    color: #000;
 }
 
 .hero p {
     font-size: 1.2rem;
-    color: #DADADA;
+    color: #000;
 }
 
 /* DETAILS */
@@ -103,4 +110,5 @@ button {
     border: none;
     border-radius: 6px;
     font-size: 1.2rem;
-    cursor: poi
+    cursor: pointer;
+}
