@@ -55,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     handleFormSubmit(weddingForm, weddingMessage);
     handleFormSubmit(buffetForm, buffetMessage);
 
-// Reels and symbols
 const reels = [
     document.getElementById("reel1"),
     document.getElementById("reel2"),
@@ -63,7 +62,7 @@ const reels = [
 ];
 
 const symbols = ["🍒","🍋","🔔","💖","💍"];
-const targetSymbols = ["💖","💖","💍"]; // heart, heart, wedding bands
+const targetSymbols = ["💖","💖","💍"]; // final symbols
 
 const spinButton = document.getElementById("spinButton");
 const overlay = document.getElementById("slotOverlay");
@@ -102,34 +101,36 @@ function animateConfetti(particles){
     if(particles.length>0) requestAnimationFrame(()=>animateConfetti(particles));
 }
 
-// Spin one reel
-function spinReel(reel,target,duration){
+// Build symbol strips
+reels.forEach(reel=>{
+    const strip = document.createElement("div");
+    strip.className="symbol-strip";
+    symbols.forEach(sym=>{
+        const div = document.createElement("div");
+        div.className="symbol";
+        div.textContent=sym;
+        strip.appendChild(div);
+    });
+    reel.appendChild(strip);
+});
+
+// Spin a reel
+function spinReel(reel,targetSymbol,duration){
     return new Promise(resolve=>{
-        reel.innerHTML="";
-        let sequence = [];
-        for(let i=0;i<20;i++){
-            sequence.push(symbols[Math.floor(Math.random()*symbols.length)]);
-        }
-        sequence.push(target); // last symbol is target
-        const start = performance.now();
+        const strip = reel.querySelector(".symbol-strip");
+        const stripHeight = strip.children[0].clientHeight * symbols.length;
+        let start = null;
+        const finalIndex = symbols.indexOf(targetSymbol);
+        const totalDistance = stripHeight*3 + finalIndex*strip.children[0].clientHeight; // 3 full spins + landing
+
         function animate(time){
+            if(!start) start=time;
             const elapsed = time-start;
             const progress = Math.min(elapsed/duration,1);
-            const index = Math.floor(progress * sequence.length);
-            reel.innerHTML="";
-            for(let i=index;i<index+3;i++){
-                const sym = document.createElement("div");
-                sym.className="symbol";
-                sym.textContent=sequence[i%sequence.length];
-                reel.appendChild(sym);
-            }
+            strip.style.transform = `translateY(-${totalDistance * progress}px)`;
             if(progress<1) requestAnimationFrame(animate);
-            else{
-                reel.innerHTML="";
-                const final = document.createElement("div");
-                final.className="symbol";
-                final.textContent=target;
-                reel.appendChild(final);
+            else {
+                strip.style.transform = `translateY(-${finalIndex*strip.children[0].clientHeight}px)`;
                 resolve();
             }
         }
@@ -140,18 +141,12 @@ function spinReel(reel,target,duration){
 // Spin all reels sequentially
 async function spinAll(){
     spinButton.disabled=true;
-    reels.forEach(r=> r.innerHTML="❓");
-
     for(let i=0;i<reels.length;i++){
         await spinReel(reels[i],targetSymbols[i],1500 + i*500);
     }
-
     const confetti=createConfetti();
     animateConfetti(confetti);
-
     setTimeout(()=>overlay.style.display="none",2500);
 }
 
-// Ensure it works on click/tap
 spinButton.addEventListener("click",spinAll);
-
