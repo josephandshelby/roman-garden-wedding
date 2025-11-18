@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Joseph & Shelby — Roman Garden Wedding</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>Joseph & Shelby</h1>
+            <h2>A Roman Garden Wedding</h2>
+            <p>September 16, 2026 · Caesars Palace · Las Vegas</p>
+        </div>
+    </header>
+
+    <!-- ABOUT SECTION -->
+    <section class="about">
+        <h2>Welcome to Our Celebration</h2>
+        <p>
+            Join us for an elegant Roman Garden wedding at the iconic Caesars Palace in Las Vegas.
+            Surrounded by classical statues, marble columns, and floral beauty, we invite you to share this unforgettable day with us.
+        </p>
+    </section>
+
+    <!-- DETAILS SECTION -->
+    <section class="details">
+        <h2>Wedding Details</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <h3>Date & Time</h3>
+                <p>Wednesday, September 16, 2026<br>5:00 PM</p>
+            </div>
+            <div class="detail-item">
+                <h3>Location</h3>
+                <p>Caesars Palace<br>3570 S Las Vegas Blvd<br>Paradise, NV 89109</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section class="schedule">
+        <h2>Schedule</h2>
+        <ul>
+            <li><span>4:00 PM</span> — Welcome Refreshments</li>
+            <li><span>5:00 PM</span> — Ceremony in the Roman Garden</li>
+            <li><span>6:00 PM</span> — Photos & Cocktails</li>
+            <li><span>7:30 PM</span> — Dinner & Reception</li>
+            <li><span>Late</span> — Optional Vegas Outing</li>
+        </ul>
+    </section>
+
+    <!-- WEDDING RSVP FORM -->
+    <section class="form-section">
+        <h2>Wedding RSVP</h2>
+        <p>Please let us know if you will be attending the ceremony.</p>
+
+        <form id="weddingForm">
+            <input type="text" name="name" placeholder="Full Name*" required />
+            <input type="email" name="email" placeholder="Email*" required />
+            <select name="attending" required>
+                <option value="">Will you attend?*</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <input type="number" name="guests" placeholder="Number of Guests" min="0" />
+            <textarea name="notes" placeholder="Notes (diet, allergies, etc.)"></textarea>
+
+            <button type="submit">Submit RSVP</button>
+        </form>
+
+        <div id="weddingMessage" class="form-message"></div>
+    </section>
+
+    <!-- BUFFET RSVP -->
+    <section class="form-section buffet">
+        <h2>Buffet RSVP — Optional</h2>
+        <p>Cost: <strong>$45 per person</strong><br>Please reserve your buffet seats below.</p>
+
+        <form id="buffetForm">
+            <input type="text" name="name" placeholder="Full Name*" required />
+            <input type="email" name="email" placeholder="Email*" required />
+            <input type="number" name="buffetGuests" placeholder="Number of Buffet Guests*" min="0" required />
+            <textarea name="notes" placeholder="Notes"></textarea>
+
+            <label class="checkbox">
+                <input type="checkbox" required />
+                I acknowledge the buffet cost of $45 per person.
+            </label>
+
+            <button type="submit">Submit Buffet RSVP</button>
+        </form>
+
+        <div id="buffetMessage" class="form-message"></div>
+    </section>
+
+    <!-- MAP -->
+    <section class="map-section">
+        <h2>Location</h2>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3223.303066551512!2d-115.17666022364946!3d36.11654597244383!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c8c42b1b582d51%3A0xecd8f2fa2a3434a4!2sCaesars%20Palace!5e0!3m2!1sen!2sus!4v1709333500000"
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Joseph & Shelby · September 16, 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
