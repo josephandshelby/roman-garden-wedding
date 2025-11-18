@@ -55,16 +55,13 @@ document.addEventListener("DOMContentLoaded", () => {
     handleFormSubmit(weddingForm, weddingMessage);
     handleFormSubmit(buffetForm, buffetMessage);
 
-// ---------- SLOT MACHINE LOGIC ----------
+
+// Vegas-style slot machine overlay
 const wheels = [
     document.getElementById("wheel1"),
     document.getElementById("wheel2"),
     document.getElementById("wheel3")
 ];
-
-// Vegas-style symbols (replace with images if you want)
-const symbols = ["🍒","🍋","🔔","💖","💍"];
-const targetSymbols = ["💖","💖","💍"]; // hearts, hearts, rings
 
 const spinButton = document.getElementById("spinButton");
 const overlay = document.getElementById("slotOverlay");
@@ -74,9 +71,13 @@ const ctx = confettiCanvas.getContext("2d");
 confettiCanvas.width = window.innerWidth;
 confettiCanvas.height = window.innerHeight;
 
-// Confetti setup
+// Symbols (use emojis or swap with images)
+const symbols = ["🍒","🍋","🔔","💖","💍"];
+const targetSymbols = ["💖","💖","💍"]; // hearts, hearts, ring
+
+// Confetti
 let confettiParticles = [];
-function createConfetti() {
+function createConfetti(){
     confettiParticles = [];
     for(let i=0;i<150;i++){
         confettiParticles.push({
@@ -89,7 +90,6 @@ function createConfetti() {
         });
     }
 }
-
 function animateConfetti(){
     ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
     confettiParticles.forEach((p,i)=>{
@@ -104,18 +104,18 @@ function animateConfetti(){
     if(confettiParticles.length>0) requestAnimationFrame(animateConfetti);
 }
 
-// Spin one wheel in place
+// Spin wheel in place
 function spinWheel(wheel, target, duration){
     return new Promise(resolve=>{
         let start = null;
-        const spins = 10; // number of rotations
+        const spins = 10; // number of full rotations
         function animate(time){
             if(!start) start=time;
             let progress = Math.min((time-start)/duration,1);
             let angle = spins*360*progress;
             wheel.style.transform = `rotate(${angle}deg)`;
             if(progress<1) requestAnimationFrame(animate);
-            else{
+            else {
                 wheel.textContent = target;
                 resolve();
             }
@@ -124,10 +124,11 @@ function spinWheel(wheel, target, duration){
     });
 }
 
-// Spin all wheels sequentially
+// Sequential spin
 async function spinAll(){
     spinButton.disabled = true;
-    wheels.forEach(w=>w.textContent="❓"); // reset wheels
+    wheels.forEach(w=> w.textContent="❓");
+
     await spinWheel(wheels[0], targetSymbols[0], 1500);
     await spinWheel(wheels[1], targetSymbols[1], 2000);
     await spinWheel(wheels[2], targetSymbols[2], 2500);
@@ -135,13 +136,7 @@ async function spinAll(){
     createConfetti();
     animateConfetti();
 
-    // Remove overlay after short delay
-    setTimeout(()=>{
-        overlay.style.display="none";
-        document.body.classList.add("reveal-site");
-    },2500);
+    setTimeout(()=> overlay.style.display="none", 2500);
 }
 
-// Click or touch to spin
 spinButton.addEventListener("click", spinAll);
-wheels.forEach(wheel => wheel.addEventListener("click", spinAll));
