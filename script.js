@@ -1,133 +1,57 @@
-// ----- SLOT MACHINE -----
-const slotOverlay = document.getElementById("slot-overlay");
-const lever = document.getElementById("slot-lever");
-const leverStick = document.getElementById("lever-stick");
-const leverBall = document.getElementById("lever-ball");
+// script.js
 
-const wheels = [
-    document.querySelector("#wheel1 .symbols-wrapper"),
-    document.querySelector("#wheel2 .symbols-wrapper"),
-    document.querySelector("#wheel3 .symbols-wrapper")
-];
+document.addEventListener("DOMContentLoaded", () => {
+    /*** SLIDESHOW ***/
+    const track = document.querySelector(".slideshow-track");
+    const slides = Array.from(track.children);
+    const nextButton = document.querySelector(".arrow-right");
+    const prevButton = document.querySelector(".arrow-left");
+    const slideWidth = slides[0].getBoundingClientRect().width;
 
-const symbols = ["7", "🍋", "🍒", "❤️", "💍"];
-const finalSymbols = ["❤️", "❤️", "💍"]; // Winning symbols
-
-let spinning = false;
-
-lever.addEventListener("click", () => {
-    if (spinning) return;
-    spinning = true;
-
-    // Animate lever down
-    leverStick.style.transform = "rotate(45deg)";
-    leverBall.style.transform = "translateY(50px)";
-
-    // Reset lever after 0.5s
-    setTimeout(() => {
-        leverStick.style.transform = "rotate(0deg)";
-        leverBall.style.transform = "translateY(0)";
-    }, 500);
-
-    // Spin each wheel sequentially
-    spinWheel(wheels[0], finalSymbols[0], 0);
-});
-
-function spinWheel(wheel, finalSymbol, index) {
-    const wrapper = wheel;
-    let spinCount = 0;
-    const totalSpins = 20 + Math.floor(Math.random() * 10); // Randomized spins
-    const spinInterval = setInterval(() => {
-        // Rotate symbols
-        wrapper.appendChild(wrapper.firstElementChild);
-        spinCount++;
-        if (spinCount >= totalSpins) {
-            clearInterval(spinInterval);
-            // Set final symbol
-            wrapper.innerHTML = "";
-            const finalDiv = document.createElement("div");
-            finalDiv.className = "symbol";
-            finalDiv.textContent = finalSymbol;
-            wrapper.appendChild(finalDiv);
-
-            // Spin next wheel
-            if (index < wheels.length - 1) {
-                spinWheel(wheels[index + 1], finalSymbols[index + 1], index + 1);
-            } else {
-                // All wheels done, hide overlay after short delay
-                setTimeout(() => {
-                    slotOverlay.style.opacity = "0";
-                    setTimeout(() => {
-                        slotOverlay.style.display = "none";
-                        spinning = false;
-                    }, 500);
-                }, 1000);
-            }
-        }
-    }, 100);
-}
-
-// ----- ENGAGEMENT SLIDESHOW -----
-const track = document.querySelector(".slideshow-track");
-const slides = Array.from(track.children);
-let currentSlide = 0;
-
-function showSlide(index) {
-    const width = track.clientWidth;
-    track.style.transform = `translateX(-${index * width}px)`;
-}
-
-function nextSlide() {
-    currentSlide = (currentSlide + 1) % slides.length;
-    showSlide(currentSlide);
-}
-
-document.querySelector(".arrow-left").addEventListener("click", () => {
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    showSlide(currentSlide);
-});
-
-document.querySelector(".arrow-right").addEventListener("click", () => {
-    nextSlide();
-});
-
-// Auto-advance every 6 seconds
-setInterval(nextSlide, 6000);
-
-// ----- FORM HANDLING (Wedding RSVPs) -----
-const weddingForm = document.getElementById("weddingForm");
-const weddingMessage = document.getElementById("weddingMessage");
-
-weddingForm.addEventListener("submit", e => {
-    e.preventDefault();
-    weddingMessage.textContent = "Submitting...";
-    const formData = new FormData(weddingForm);
-    fetch("https://script.google.com/macros/s/AKfycbxcgsO_6g6j-2U-eY-fS4OFnYDiOeRc8k4pTmSV21HLmAK0PqkYSI60WtIZfQv7mq9k/exec", {
-        method: "POST",
-        body: formData
-    }).then(() => {
-        weddingMessage.textContent = "Thank you! Your RSVP has been received.";
-        weddingForm.reset();
-    }).catch(() => {
-        weddingMessage.textContent = "Error submitting form. Please try again.";
+    // Arrange slides next to each other
+    slides.forEach((slide, index) => {
+        slide.style.left = slideWidth * index + "px";
     });
-});
 
-// ----- FORM HANDLING (Buffet RSVPs) -----
-const buffetForm = document.getElementById("buffetForm");
-const buffetMessage = document.getElementById("buffetMessage");
+    let currentIndex = 0;
 
-buffetForm.addEventListener("submit", e => {
-    e.preventDefault();
-    buffetMessage.textContent = "Submitting...";
-    const formData = new FormData(buffetForm);
-    fetch("https://script.google.com/macros/s/AKfycbxcgsO_6g6j-2U-eY-fS4OFnYDiOeRc8k4pTmSV21HLmAK0PqkYSI60WtIZfQv7mq9k/exec", {
-        method: "POST",
-        body: formData
-    }).then(() => {
-        buffetMessage.textContent = "Buffet RSVP received!";
-        buffetForm.reset();
-    }).catch(() => {
-        buffetMessage.textContent = "Submission error. Please try again.";
-    });
+    const moveToSlide = (index) => {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        track.style.transform = `translateX(-${slideWidth * index}px)`;
+        currentIndex = index;
+    };
+
+    nextButton.addEventListener("click", () => moveToSlide(currentIndex + 1));
+    prevButton.addEventListener("click", () => moveToSlide(currentIndex - 1));
+
+    // Optional: auto-slide every 5 seconds
+    setInterval(() => moveToSlide(currentIndex + 1), 5000);
+
+    /*** RSVP FORM HANDLING ***/
+    const weddingForm = document.getElementById("weddingForm");
+    const buffetForm = document.getElementById("buffetForm");
+    const weddingMessage = document.getElementById("weddingMessage");
+    const buffetMessage = document.getElementById("buffetMessage");
+
+    const handleFormSubmit = (form, messageEl) => {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Simple feedback, replace with real backend call if needed
+            messageEl.textContent = "Thank you, " + (data.name || "Guest") + "! Your RSVP has been recorded.";
+            messageEl.style.opacity = 1;
+            form.reset();
+
+            setTimeout(() => {
+                messageEl.style.opacity = 0;
+            }, 5000);
+        });
+    };
+
+    handleFormSubmit(weddingForm, weddingMessage);
+    handleFormSubmit(buffetForm, buffetMessage);
 });
