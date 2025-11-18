@@ -8,8 +8,17 @@ body {
 /* HERO */
 .hero {
     height: 85vh;
-    background: url('https://images.unsplash.com/photo-1600112332737-9c5b58267d69?auto=format&fit=crop&w=1560&q=80')
-        center/cover no-repeat;
+
+    /* JPG fallback */
+    background: url('assets/venus_garden.jpg') center/cover no-repeat;
+}
+
+/* AVIF preferred */
+.hero {
+    background: url('assets/venus_garden.avif') center/cover no-repeat;
+}
+
+.hero {
     position: relative;
     display: flex;
     align-items: center;
@@ -19,7 +28,7 @@ body {
 .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.4); /* soften overlay to white-ish */
+    background: rgba(255, 255, 255, 0.4); /* soften overlay */
 }
 
 .hero-content {
@@ -37,25 +46,12 @@ body {
 .hero h2 {
     font-size: 2rem;
     margin: 10px 0;
-    color: #A8BBA1; /* soft sage green */
+    color: #A8BBA1;
 }
 
 .hero p {
     font-size: 1.2rem;
-    color: #DADADA; /* light gray text for some lines */
-}
-
-/* SECTIONS */
-section {
-    padding: 70px 10%;
-    text-align: center;
-    background: #F7F7F7;
-}
-
-h2 {
-    font-size: 2.5rem;
-    margin-bottom: 25px;
-    color: #B59B63; /* muted gold for headings */
+    color: #DADADA;
 }
 
 /* DETAILS */
