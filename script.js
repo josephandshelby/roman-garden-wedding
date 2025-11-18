@@ -1,131 +1,148 @@
-/* ===========================================================
-   SLOT MACHINE LOGIC
-=========================================================== */
+/* ================================
+   SLOT MACHINE FUNCTIONALITY
+================================ */
 
-const spinButton = document.getElementById("spin-button");
 const slotOverlay = document.getElementById("slot-overlay");
-const mainContent = document.getElementById("main-content");
+const handleBall = document.getElementById("handle-ball");
+const handleStick = document.getElementById("handle-stick");
 
-const reel1 = document.getElementById("reel1");
-const reel2 = document.getElementById("reel2");
-const reel3 = document.getElementById("reel3");
+let spinning = false;
 
-const handle = document.querySelector(".slot-handle");
+function spinReels() {
+    if (spinning) return;
+    spinning = true;
 
-/* Hearts that will spin */
-const symbols = ["❤️", "❤️", "❤️"]; // always hearts for all spins
+    // Pull handle animation
+    handleBall.classList.add("pulled");
+    handleStick.classList.add("pulled");
 
-function populateReel(reel) {
-  reel.innerHTML = "";
-  for (let i = 0; i < 4; i++) {
-    const div = document.createElement("div");
-    div.textContent = symbols[i % symbols.length];
-    div.style.height = "60px";
-    div.style.display = "flex";
-    div.style.alignItems = "center";
-    div.style.justifyContent = "center";
-    reel.appendChild(div);
-  }
-}
-
-/* Fill each reel initially */
-populateReel(reel1);
-populateReel(reel2);
-populateReel(reel3);
-
-/* Confetti function */
-function launchConfetti() {
-  for (let i = 0; i < 30; i++) {
-    const c = document.createElement("div");
-    c.classList.add("confetti");
-    c.style.left = Math.random() * 100 + "vw";
-    c.style.setProperty("--hue", Math.floor(Math.random() * 360));
-    document.body.appendChild(c);
-
-    setTimeout(() => c.remove(), 2500);
-  }
-}
-
-spinButton.addEventListener("click", () => {
-
-  /* Animate handle pull */
-  handle.classList.add("handle-animate");
-  setTimeout(() => handle.classList.remove("handle-animate"), 450);
-
-  /* Add spinning animation to reels */
-  reel1.style.animation = "spin 1s ease-out";
-  reel2.style.animation = "spin 1.3s ease-out";
-  reel3.style.animation = "spin 1.6s ease-out";
-
-  /* After animation finishes, freeze all reels on ❤️ */
-  setTimeout(() => {
-    reel1.style.animation = "none";
-    reel2.style.animation = "none";
-    reel3.style.animation = "none";
-
-    populateReel(reel1);
-    populateReel(reel2);
-    populateReel(reel3);
-
-    launchConfetti(); // small confetti burst
-
-    /* Fade out overlay and reveal site */
     setTimeout(() => {
-      slotOverlay.style.transition = "opacity 1s";
-      slotOverlay.style.opacity = "0";
+        handleBall.classList.remove("pulled");
+        handleStick.classList.remove("pulled");
+    }, 500);
 
-      setTimeout(() => {
-        slotOverlay.style.display = "none";
-        mainContent.style.opacity = "1";
-      }, 1000);
+    // Spin animation for each reel
+    const reels = [
+        document.getElementById("reel1"),
+        document.getElementById("reel2"),
+        document.getElementById("reel3")
+    ];
 
-    }, 400);
+    reels.forEach((reel, i) => {
+        reel.style.transition = "transform 1s ease";
+        reel.style.transform = "translateY(-300px)";
+    });
 
-  }, 1600);
-});
+    // After animation ends → reset + show hearts
+    setTimeout(() => {
+        reels.forEach(reel => {
+            reel.style.transition = "none";
+            reel.style.transform = "translateY(-300px)";
+        });
 
-/* ===========================================================
-   ENGAGEMENT PHOTO SLIDER (ONE AT A TIME)
-=========================================================== */
+        // Fade out slot overlay
+        slotOverlay.classList.add("fade-out");
+
+        setTimeout(() => {
+            slotOverlay.style.display = "none";
+        }, 1200);
+
+    }, 1100);
+}
+
+handleBall.addEventListener("click", spinReels);
+handleStick.addEventListener("click", spinReels);
+
+
+
+/* ================================
+   ENGAGEMENT SLIDESHOW
+================================ */
 
 let slideIndex = 0;
-const slides = document.querySelectorAll(".engagement-slide");
+const track = document.querySelector(".slideshow-track");
+const slides = document.querySelectorAll(".slideshow-track img");
 
-function showSlides() {
-  slides.forEach((slide) => slide.classList.remove("active"));
-  slides[slideIndex].classList.add("active");
-
-  slideIndex++;
-  if (slideIndex >= slides.length) slideIndex = 0;
-
-  setTimeout(showSlides, 3500);
+function updateSlidePosition() {
+    track.style.transform = `translateX(-${slideIndex * 100}%)`;
 }
 
-/* Start slider only if engagement slides exist */
-if (slides.length > 0) {
-  showSlides();
-}
+document.querySelector(".arrow-left").addEventListener("click", () => {
+    slideIndex = (slideIndex === 0) ? slides.length - 1 : slideIndex - 1;
+    updateSlidePosition();
+});
 
-/* ===========================================================
-   GOOGLE FORM RSVP SUBMISSION
-=========================================================== */
+document.querySelector(".arrow-right").addEventListener("click", () => {
+    slideIndex = (slideIndex + 1) % slides.length;
+    updateSlidePosition();
+});
 
-const rsvpForm = document.getElementById("rsvp-form");
+// Auto-rotate every 5 seconds
+setInterval(() => {
+    slideIndex = (slideIndex + 1) % slides.length;
+    updateSlidePosition();
+}, 5000);
 
-if (rsvpForm) {
-  rsvpForm.addEventListener("submit", async function(e) {
+
+
+/* ================================
+   WEDDING RSVP FORM
+================================ */
+
+document.getElementById("weddingForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxcgsO_6g6j-2U-eY-fS4OFnYDiOeRc8k4pTmSV21HLmAK0PqkYSI60WtIZfQv7mq9k/exec";
+    const form = e.target;
+    const formData = new FormData(form);
+    const message = document.getElementById("weddingMessage");
 
-    const formData = new FormData(rsvpForm);
+    message.textContent = "Submitting...";
 
     try {
-      await fetch(scriptURL, { method: "POST", body: formData });
-      alert("Thank you! Your RSVP has been submitted.");
-      rsvpForm.reset();
+        const response = await fetch(
+            "https://script.google.com/macros/s/AKfycbxcgsO_6g6j-2U-eY-fS4OFnYDiOeRc8k4pTmSV21HLmAK0PqkYSI60WtIZfQv7mq9k/exec",
+            { method: "POST", body: formData }
+        );
+
+        if (response.ok) {
+            message.textContent = "Thank you! Your RSVP has been submitted.";
+            form.reset();
+        } else {
+            message.textContent = "There was an error submitting. Try again.";
+        }
     } catch (error) {
-      alert("There was an error submitting your RSVP.");
+        message.textContent = "Network error. Please try again.";
     }
-  });
-}
+});
+
+
+
+/* ================================
+   BUFFET RSVP FORM
+================================ */
+
+document.getElementById("buffetForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const message = document.getElementById("buffetMessage");
+
+    message.textContent = "Submitting...";
+
+    try {
+        const response = await fetch(
+            "https://script.google.com/macros/s/AKfycbxcgsO_6g6j-2U-eY-fS4OFnYDiOeRc8k4pTmSV21HLmAK0PqkYSI60WtIZfQv7mq9k/exec",
+            { method: "POST", body: formData }
+        );
+
+        if (response.ok) {
+            message.textContent = "Thank you! Your buffet RSVP has been submitted.";
+            form.reset();
+        } else {
+            message.textContent = "There was an error submitting. Try again.";
+        }
+    } catch (error) {
+        message.textContent = "Network error. Please try again.";
+    }
+});
