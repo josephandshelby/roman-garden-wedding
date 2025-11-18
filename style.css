@@ -39,7 +39,8 @@ body {
 /* ---------- ENGAGEMENT SLIDESHOW ---------- */
 .slideshow-wrapper {
     position: relative;
-    overflow: hidden;
+    overflow: hidden;   /* hides extra images outside the view */
+    width: 100%;
     max-width: 100%;
     margin: 0 auto;
 }
@@ -47,13 +48,13 @@ body {
 .slideshow-track {
     display: flex;
     transition: transform 0.5s ease-in-out;
-    width: 100%;
 }
 
 .slideshow-track img {
-    width: 100%;      /* full width */
-    height: 400px;    /* smaller height */
-    object-fit: cover; /* crop to fill without distortion */
+    width: 100%;       /* each image fills the wrapper */
+    flex-shrink: 0;    /* prevents images from shrinking */
+    height: 400px;     /* desired height */
+    object-fit: cover; /* crop without stretching */
 }
 
 .arrow {
@@ -161,3 +162,4 @@ footer {
     font-size: 1rem;
     color: #444;
 }
+
