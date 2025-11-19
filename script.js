@@ -3,30 +3,20 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /***********************************/
-    /***  ✨ VEGAS INTRO OVERLAY     ***/
+    /***  ✨ VEGAS INTRO (IFRAME)     ***/
     /***********************************/
     const introOverlay = document.getElementById("introOverlay");
 
     const closeIntro = () => {
-        if (!introOverlay) return;
         introOverlay.classList.add("hidden");
-
-        // remove overlay after fade animation
-        setTimeout(() => {
-            if (introOverlay) introOverlay.remove();
-        }, 1200);
+        setTimeout(() => introOverlay.remove(), 1200);
     };
 
-    // Close on ANY click
-    document.addEventListener("click", (e) => {
-        // Prevent clicks through intro from triggering elements below
-        if (introOverlay && !introOverlay.classList.contains("hidden")) {
-            e.stopPropagation();
-            e.preventDefault();
+    document.addEventListener("click", () => {
+        if (!introOverlay.classList.contains("hidden")) {
             closeIntro();
         }
-    }, true);
-
+    });
 
 
     /***********************************/
@@ -40,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (track && slides.length > 0) {
         const slideWidth = slides[0].getBoundingClientRect().width;
 
-        // Position slides side-by-side
         slides.forEach((slide, index) => {
             slide.style.left = slideWidth * index + "px";
         });
@@ -50,23 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const moveToSlide = (index) => {
             if (index < 0) index = slides.length - 1;
             if (index >= slides.length) index = 0;
-
             track.style.transform = `translateX(-${slideWidth * index}px)`;
             currentIndex = index;
         };
 
-        // Arrow navigation
         nextButton?.addEventListener("click", () => moveToSlide(currentIndex + 1));
         prevButton?.addEventListener("click", () => moveToSlide(currentIndex - 1));
 
-        // Auto-sliding every 5 seconds
         setInterval(() => moveToSlide(currentIndex + 1), 5000);
     }
 
 
-
     /***********************************/
-    /***  📝 RSVP FORMS              ***/
+    /***  📝 FORMS                    ***/
     /***********************************/
     const weddingForm = document.getElementById("weddingForm");
     const buffetForm = document.getElementById("buffetForm");
@@ -75,22 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const handleFormSubmit = (form, messageEl) => {
         if (!form || !messageEl) return;
-
         form.addEventListener("submit", (e) => {
             e.preventDefault();
-
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-
-            messageEl.textContent =
-                "Thank you, " + (data.name || "Guest") + "! Your RSVP has been recorded.";
-
+            const data = Object.fromEntries(new FormData(form).entries());
+            messageEl.textContent = `Thank you, ${data.name || "Guest"}! Your RSVP has been recorded.`;
             messageEl.style.opacity = 1;
             form.reset();
-
-            setTimeout(() => {
-                messageEl.style.opacity = 0;
-            }, 5000);
+            setTimeout(() => (messageEl.style.opacity = 0), 5000);
         });
     };
 
