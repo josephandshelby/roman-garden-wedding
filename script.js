@@ -2,21 +2,23 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /***********************************/
-    /***  ✨ VEGAS INTRO (IFRAME)     ***/
-    /***********************************/
-    const introOverlay = document.getElementById("introOverlay");
+  /***********************************/
+/***  ✨ VEGAS INTRO (IFRAME)     ***/
+/***********************************/
+const introOverlay = document.getElementById("introOverlay");
+const introFrame = document.getElementById("introFrame");
 
-    const closeIntro = () => {
-        introOverlay.classList.add("hidden");
-        setTimeout(() => introOverlay.remove(), 1200);
-    };
+function closeIntro() {
+    introOverlay.classList.add("hidden");
+    setTimeout(() => introOverlay.remove(), 800);
+}
 
-    document.addEventListener("click", () => {
-        if (!introOverlay.classList.contains("hidden")) {
-            closeIntro();
-        }
-    });
+// Listen for messages coming **from inside the iframe**
+window.addEventListener("message", (event) => {
+    if (event.data === "close-intro") {
+        closeIntro();
+    }
+});
 
 
     /***********************************/
@@ -73,3 +75,4 @@ document.addEventListener("DOMContentLoaded", () => {
     handleFormSubmit(weddingForm, weddingMessage);
     handleFormSubmit(buffetForm, buffetMessage);
 });
+
