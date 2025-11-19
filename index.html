@@ -122,7 +122,7 @@
         <div id="buffetMessage" class="form-message"></div>
     </section>
 
-    <!-- MAP (fixed embed) -->
+    <!-- MAP -->
     <section class="map-section">
         <h2>Location</h2>
         <iframe
@@ -132,7 +132,7 @@
         </iframe>
     </section>
 
-    <!-- VIDEO (fixed autoplay) -->
+    <!-- VIDEO -->
     <section class="video-section">
         <iframe
             src="https://www.youtube.com/embed/9uZ8CCa0t4Y?autoplay=1&mute=1&controls=1&loop=1&playlist=9uZ8CCa0t4Y"
@@ -148,5 +148,24 @@
 </footer>
 
 <script src="script.js"></script>
+
+<!-- 🔥 INTRO SCROLL SCRIPT -->
+<script>
+// Wait for message from vegas_intro.html
+window.addEventListener("message", (event) => {
+    if (event.data === "scrollDown") {
+        const introOverlay = document.getElementById("introOverlay");
+
+        introOverlay.style.height = "0vh";
+        introOverlay.style.overflow = "hidden";
+
+        window.scrollTo({
+            top: window.innerHeight,
+            behavior: "smooth"
+        });
+    }
+});
+</script>
+
 </body>
 </html>
