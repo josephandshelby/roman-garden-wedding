@@ -29,6 +29,11 @@ body {
     background: #F7F7F7;
 }
 
+/* Larger base text across the site */
+body, p, li, input, select, button {
+    font-size: 1.2rem;
+}
+
 /* ---------- HERO ---------- */
 .hero {
     height: 85vh;
@@ -72,10 +77,10 @@ body {
 }
 
 .slideshow-track img {
-    width: 100%;
-    flex-shrink: 0;
-    height: 400px;
+    width: 100vw;        /* Ensures full width images again */
+    height: 500px;       /* Increased height to restore large display */
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 .arrow {
@@ -101,12 +106,21 @@ body {
 
 /* ---------- TEXT SECTIONS ---------- */
 .body-background section {
-    background: rgba(255, 255, 255, 0.85);
-    padding: 50px 20px;
-    margin: 20px auto;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.88);
+    padding: 60px 30px;
+    margin: 25px auto;
+    border-radius: 12px;
     max-width: 1000px;
     text-align: center;
+
+    /* Larger text for readability */
+    font-size: 1.3rem;
+    line-height: 1.6;
+}
+
+.body-background h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
 }
 
 /* ---------- DETAILS ---------- */
@@ -114,11 +128,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 35px;
 }
 
 .detail-item h3 {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     margin-bottom: 10px;
 }
 
@@ -129,6 +143,8 @@ body {
     display: flex;
     justify-content: center;
     gap: 40px;
+
+    font-size: 1.3rem;
 }
 
 .schedule li span {
@@ -138,7 +154,7 @@ body {
 
 /* ---------- FORMS ---------- */
 .form-section form {
-    max-width: 500px;
+    max-width: 550px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -146,33 +162,33 @@ body {
 }
 
 input, select {
-    padding: 12px;
-    font-size: 1.1rem;
+    padding: 14px;
+    font-size: 1.2rem;
     border: 1px solid #ccc;
     border-radius: 6px;
 }
 
 button {
-    padding: 14px;
+    padding: 16px;
     background: #A8BBA1;
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     cursor: pointer;
 }
 
 /* ---------- MAP ---------- */
 .map-section iframe {
     width: 90%;
-    height: 500px;
+    height: 550px;       /* Increased map height */
     border: none;
 }
 
 /* ---------- VIDEO ---------- */
 .video-section iframe {
     width: 90%;
-    height: 500px;
+    height: 550px;       /* Increased video height */
     border: none;
 }
 
@@ -180,6 +196,6 @@ button {
 footer {
     text-align: center;
     padding: 30px 20px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #444;
 }
