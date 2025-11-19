@@ -64,7 +64,7 @@ body {
     position: relative;
     width: 100%;
     overflow: hidden;
-    height: 650px; /* ⭐ FIXED: restores proper tall photo display */
+    height: 700px; /* ⭐ FIXED: restores proper tall photo display */
 }
 
 .slideshow-track {
@@ -74,7 +74,7 @@ body {
 
 .slideshow-track img {
     width: 100%;
-    height: 650px;   /* ⭐ FIXED: full-height images */
+    height: 700px;   /* ⭐ FIXED: full-height images */
     object-fit: cover;
     flex-shrink: 0;
 }
@@ -184,4 +184,5 @@ footer {
     font-size: 1rem;
     color: #444;
 }
+
 
